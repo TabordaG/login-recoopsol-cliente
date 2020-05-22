@@ -13,6 +13,7 @@ class StaggerAnimation extends StatelessWidget {
   final textColor;
   final function;
   final colorCircular;
+  final Route route;
 
   StaggerAnimation(
       {this.controller,
@@ -21,7 +22,8 @@ class StaggerAnimation extends StatelessWidget {
       this.color,
       this.textColor,
       this.function,
-      this.colorCircular})
+      this.colorCircular,
+      this.route})
       : buttonSqueeze = Tween(begin: 200.0, end: 50.0).animate(
             CurvedAnimation(parent: controller, curve: Interval(0.0, 0.150))),
         buttonZoomOut = Tween(begin: 50.0, end: 2000.0).animate(CurvedAnimation(parent: controller, curve: Interval(0.5,1.0, curve: Curves.bounceOut)));
@@ -91,7 +93,7 @@ class StaggerAnimation extends StatelessWidget {
         //     );
         //   },
         // ),
-        child: animationLoad(colorCircular: colorCircular),
+        child: animationLoad(colorCircular: colorCircular, route: route),
       );
     }
   }
@@ -108,10 +110,11 @@ class StaggerAnimation extends StatelessWidget {
 class animationLoad extends StatefulWidget {
   const animationLoad({
     Key key,
-    @required this.colorCircular,
+    @required this.colorCircular, this.route
   }) : super(key: key);
 
   final Color colorCircular;
+  final Route route;
 
   @override
   _animationLoadState createState() => _animationLoadState();
@@ -134,8 +137,8 @@ class _animationLoadState extends State<animationLoad> {
       )
       : CheckAnimation(
           onComplete: () {
-            print('Complete');
-            // Navigator.push(context, SlideLeftRoute(page: HomePage1()));
+            print('Complete');            
+            Navigator.push(context, widget.route);          
           },
         );
   }

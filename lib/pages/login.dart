@@ -144,6 +144,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
               color: Colors.white,
               colorCircular: Color(0xff72d0c3),//Colors.black,
               textColor: Colors.black,
+              route: SlideLeftRoute(builder: (context) => HomePage1()),
               function: () {
                 showGeneralDialog(
                   barrierColor: Colors.black.withOpacity(0.5),
@@ -248,13 +249,14 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                                         padding: const EdgeInsets.only(
                                             left: 10, right: 10.0, top: 15, bottom: 15),
                                         child: FlatButton(
-                                          onPressed: () async {
-                                            String valida = await getData(_emailTextController.text);
+                                          onPressed: () async {                                            
                                             Navigator.of(context).pop();
-                                            await Future.delayed(Duration(milliseconds: 600), () async {
+                                            Future.delayed(Duration(milliseconds: 600), () async {
                                               _animationController.forward();
                                             });
-                                            if (valida == null) {                                            
+                                            String valida = await getData(_emailTextController.text);
+                                            if (valida != null) {    
+                                              _animationController.reverse();                                        
                                               Future.delayed(Duration(seconds: 1), () {
                                                 Toast.show(
                                                   "Login Inválido, ou erro de Conexão", context,
@@ -262,22 +264,27 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                                                   gravity: Toast.CENTER,
                                                   backgroundRadius: 0.0
                                                 );                                             
-                                              });
-                                              _animationController.reverse(); 
+                                              });                                              
                                             }
                                             else {
                                               await addStringToSF(_emailTextController.text); 
                                               setState(() {
                                                 load = false;
                                               });
-                                              Future.delayed(Duration(seconds: 2), () {
-                                                // armazena email para lembrar do login
-                                                Navigator.of(context).push(new MaterialPageRoute(
-                                                  // aqui temos passagem de valores id cliente(sessao) de login para home
-                                                  builder: (context) => new HomePage1(), //id_sessao: usuario[0]['id'].toString()
-                                                  ),
-                                                );
-                                              });
+                                              // await Future.delayed(Duration(seconds: 2));
+                                              // Route route = SlideLeftRoute(builder: (context) => HomePage1());
+                                              // Navigator.push(context, route);
+                                              
+                                              // Route route = SlideLeftRoute(builder: (context) => HomePage1(id_sessao: usuario[0]['id'].toString()));
+                                              // Navigator.push(context, route);
+                                              // Future.delayed(Duration(seconds: 2), () {
+                                              //   // armazena email para lembrar do login
+                                              //   Navigator.of(context).push(new MaterialPageRoute(
+                                              //     // aqui temos passagem de valores id cliente(sessao) de login para home
+                                              //     builder: (context) => new HomePage1(), //id_sessao: usuario[0]['id'].toString()
+                                              //     ),
+                                              //   );
+                                              // });
                                             }
                                           },
                                           child: Container(
