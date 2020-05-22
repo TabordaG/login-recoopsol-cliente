@@ -5,6 +5,7 @@ import 'package:cliente/widgets/soft_buttom.dart';
 // import 'package:cliente_gustavo2/pages/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cliente/pages/stagger_animation.dart';
 //import 'package:ecomerce/pages/dados_basicos.dart';
 //import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -690,13 +691,15 @@ class _RegistrarState extends State<Registrar> {
                     ),
                     // onPressed: widget.closedBuilder,
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                            Login()
-                        )
-                      );//ALTERAR A PAGINA ********************
+                      Route route = SlideRightRoute(builder: (context) => Login());
+                      Navigator.push(context, route);
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) =>
+                      //       Login()
+                      //   )
+                      // );//ALTERAR A PAGINA ********************
                       //new minhaConta(id_sessao: widget.id_sessao)));
                     }
                 ),

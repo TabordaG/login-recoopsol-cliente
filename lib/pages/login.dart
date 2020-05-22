@@ -53,319 +53,339 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(40.0),
-              bottomRight: Radius.circular(40.0),
+    return SingleChildScrollView(
+      child: Stack(
+          children: <Widget>[
+            Container(
+              height: height,
+              width: width,
+              color: Colors.white,
+              // decoration: BoxDecoration(
+              //   gradient: RadialGradient(
+              //     center: Alignment.center,
+              //     radius: .66,
+              //     // begin: Alignment.bottomCenter,
+              //     // end: Alignment(0.0, 0.6), // 10% of the width, so there are ten blinds.
+              //     colors: [ Colors.white, Color.fromRGBO(43, 61, 50, 1)], // whitish to gray
+              //     tileMode: TileMode.repeated, // repeats the gradient over the canvas
+              //   ),
+              // ),
             ),
-            child: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/Background.png'),
-                  fit: BoxFit.cover
-                )
+            ClipRRect(              
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(40.0),
+                bottomRight: Radius.circular(40.0),
               ),
-              width: width * 1,
-              height: height * 0.92,
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/Background.png'),
+                    fit: BoxFit.cover
+                  )
+                ),
+                width: width * 1,
+                height: height * 0.92,
+              ),
             ),
-          ),
-          Positioned(
-            top: 100,
-            // left: (MediaQuery.of(context).size.width / 2) - (150 / 2),
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/logo.png',
-                    width: 150.0,
-                  ),
-                ],
-              ),
-            )
-          ),
-          Positioned(
-            top: 380,
-            // right: (MediaQuery.of(context).size.width / 2) - 115,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  FlatButton(
-                    onPressed: () {
-                      print('Cadastrar');
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Registrar()));
-                    },
-                    child: Container(
-                      width: 200,
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: Color.fromRGBO(43, 61, 50, 1), borderRadius: BorderRadius.circular(10)),
-                      child: Center(
-                        child: Text(
-                          'Cadastrar',
-                          style: Theme.of(context)
-                              .textTheme
-                              .button
-                              .copyWith(color: Colors.white, fontSize: 16),
+            Positioned(
+              top: 100,
+              // left: (MediaQuery.of(context).size.width / 2) - (150 / 2),
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/logo.png',
+                      width: 150.0,
+                    ),
+                  ],
+                ),
+              )
+            ),
+            Positioned(
+              top: 380,
+              // right: (MediaQuery.of(context).size.width / 2) - 115,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FlatButton(
+                      onPressed: () {
+                        print('Cadastrar');
+                        Route route = SlideLeftRoute(builder: (context) => Registrar());
+                        Navigator.push(context, route);
+                      },
+                      child: Container(
+                        width: 200,
+                        height: 50,
+                        decoration: BoxDecoration(
+                            color: Color.fromRGBO(43, 61, 50, 1), borderRadius: BorderRadius.circular(10)),
+                        child: Center(
+                          child: Text(
+                            'Cadastrar',
+                            style: Theme.of(context)
+                                .textTheme
+                                .button
+                                .copyWith(color: Colors.white, fontSize: 16),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          StaggerAnimation(
-            controller: _animationController.view,
-            padding: EdgeInsets.fromLTRB(0.0, 450.0, 0.0, 8.0),
-            text: "Entrar",
-            color: Colors.white,
-            colorCircular: Color(0xff72d0c3),//Colors.black,
-            textColor: Colors.black,
-            function: () {
-              showGeneralDialog(
-                barrierColor: Colors.black.withOpacity(0.5),
-                transitionBuilder: (context, a1, a2, widget) {
-                  final curvedValue = Curves.easeInOutBack.transform(a1.value) -   1.0;     
-                  return Transform(
-                    transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
-                    child: Opacity(
-                      opacity: a1.value,
-                      child: AlertDialog(
-                        shape: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16.0)),
-                        title: Text('Login'),
-                        content: SingleChildScrollView(
-                          child: Container(
-                            height: 230,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(16),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey[350],
-                                  blurRadius:
-                                      20.0, // has the effect of softening the shadow
-                                )
-                              ],
-                            ),
-                            child: Form(
-                                key: _formkey,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Container(
-                                      padding: const EdgeInsets.only(left: 6, right: 6),
-                                      height: 50,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 10, right: 10.0, top: 0, bottom: 0),
-                                        child: Material(
-                                          borderRadius: BorderRadius.circular(10.0),
-                                          color: Colors.grey.withOpacity(0.2),
-                                          elevation: 0.0,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left: 5.0),
-                                            child: ListTile(
-                                              title: TextFormField(
-                                                controller: _emailTextController,
-                                                decoration: InputDecoration(
-                                                    hintText: "Email",
-                                                    icon: Icon(Icons.alternate_email),
-                                                    border: InputBorder.none),
-                                                validator: (value) {
-                                                  if (value.isEmpty) {
-                                                    Pattern pattern =
-                                                        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                                                    RegExp regex = new RegExp(pattern);
-                                                    if (!regex.hasMatch(value))
-                                                      return 'Entre com um email válido';
-                                                    else
-                                                      return null;
-                                                  }
-                                                },
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(height: 10),
-                                    Container(
-                                      padding: const EdgeInsets.only(left: 6, right: 6),
-                                      height: 50,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 10, right: 10.0, top: 0, bottom: 0),
-                                        child: Material(
-                                          borderRadius: BorderRadius.circular(10.0),
-                                          color: Colors.grey.withOpacity(0.2),
-                                          elevation: 0.0,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left: 5.0),
-                                            child: ListTile(
-                                              title: TextFormField(
-                                                obscureText: true,
-                                                controller: _passwordTextController,
-                                                decoration: InputDecoration(
-                                                    hintText: "Senha",
-                                                    icon: Icon(Icons.alternate_email),
-                                                    border: InputBorder.none),
-                                                validator: (value) {
-                                                  if (value.isEmpty) {
-
-                                                  }
-                                                },
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 10, right: 10.0, top: 15, bottom: 15),
-                                      child: FlatButton(
-                                        onPressed: () async {
-                                          String valida = await getData(_emailTextController.text);
-                                          Navigator.of(context).pop();
-                                          await Future.delayed(Duration(milliseconds: 600), () async {
-                                            _animationController.forward();
-                                          });
-                                          if (valida == null) {                                            
-                                            Future.delayed(Duration(seconds: 1), () {
-                                              Toast.show(
-                                                "Login Inválido, ou erro de Conexão", context,
-                                                duration: Toast.LENGTH_LONG,
-                                                gravity: Toast.CENTER,
-                                                backgroundRadius: 0.0
-                                              );                                             
-                                            });
-                                            _animationController.reverse(); 
-                                          }
-                                          else {
-                                            await addStringToSF(_emailTextController.text); 
-                                            setState(() {
-                                              load = false;
-                                            });
-                                            Future.delayed(Duration(seconds: 2), () {
-                                              // armazena email para lembrar do login
-                                              Navigator.of(context).push(new MaterialPageRoute(
-                                                // aqui temos passagem de valores id cliente(sessao) de login para home
-                                                builder: (context) => new HomePage1(), //id_sessao: usuario[0]['id'].toString()
+            StaggerAnimation(
+              controller: _animationController.view,
+              padding: EdgeInsets.fromLTRB(0.0, 450.0, 0.0, 8.0),
+              text: "Entrar",
+              color: Colors.white,
+              colorCircular: Color(0xff72d0c3),//Colors.black,
+              textColor: Colors.black,
+              function: () {
+                showGeneralDialog(
+                  barrierColor: Colors.black.withOpacity(0.5),
+                  transitionBuilder: (context, a1, a2, widget) {
+                    final curvedValue = Curves.easeInOutBack.transform(a1.value) -   1.0;     
+                    return Transform(
+                      transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                      child: Opacity(
+                        opacity: a1.value,
+                        child: AlertDialog(
+                          shape: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16.0)),
+                          title: Text('Login'),
+                          content: SingleChildScrollView(
+                            child: Container(
+                              height: 230,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(16),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey[350],
+                                    blurRadius:
+                                        20.0, // has the effect of softening the shadow
+                                  )
+                                ],
+                              ),
+                              child: Form(
+                                  key: _formkey,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Container(
+                                        padding: const EdgeInsets.only(left: 6, right: 6),
+                                        height: 50,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10, right: 10.0, top: 0, bottom: 0),
+                                          child: Material(
+                                            borderRadius: BorderRadius.circular(10.0),
+                                            color: Colors.grey.withOpacity(0.2),
+                                            elevation: 0.0,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(left: 5.0),
+                                              child: ListTile(
+                                                title: TextFormField(
+                                                  controller: _emailTextController,
+                                                  decoration: InputDecoration(
+                                                      hintText: "Email",
+                                                      icon: Icon(Icons.alternate_email),
+                                                      border: InputBorder.none),
+                                                  validator: (value) {
+                                                    if (value.isEmpty) {
+                                                      Pattern pattern =
+                                                          r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                                                      RegExp regex = new RegExp(pattern);
+                                                      if (!regex.hasMatch(value))
+                                                        return 'Entre com um email válido';
+                                                      else
+                                                        return null;
+                                                    }
+                                                  },
                                                 ),
-                                              );
-                                            });
-                                          }
-                                        },
-                                        child: Container(
-                                          width: 220,
-                                          height: 50,
-                                          decoration: BoxDecoration(
-                                              color: Color.fromRGBO(43, 61, 50, 1), borderRadius: BorderRadius.circular(10)),
-                                          child: Center(
-                                            child: Text(
-                                              'Login',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .button
-                                                  .copyWith(color: Colors.white, fontSize: 16),
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                )
+                                      SizedBox(height: 10),
+                                      Container(
+                                        padding: const EdgeInsets.only(left: 6, right: 6),
+                                        height: 50,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10, right: 10.0, top: 0, bottom: 0),
+                                          child: Material(
+                                            borderRadius: BorderRadius.circular(10.0),
+                                            color: Colors.grey.withOpacity(0.2),
+                                            elevation: 0.0,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(left: 5.0),
+                                              child: ListTile(
+                                                title: TextFormField(
+                                                  obscureText: true,
+                                                  controller: _passwordTextController,
+                                                  decoration: InputDecoration(
+                                                      hintText: "Senha",
+                                                      icon: Icon(Icons.alternate_email),
+                                                      border: InputBorder.none),
+                                                  validator: (value) {
+                                                    if (value.isEmpty) {
+
+                                                    }
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10, right: 10.0, top: 15, bottom: 15),
+                                        child: FlatButton(
+                                          onPressed: () async {
+                                            String valida = await getData(_emailTextController.text);
+                                            Navigator.of(context).pop();
+                                            await Future.delayed(Duration(milliseconds: 600), () async {
+                                              _animationController.forward();
+                                            });
+                                            if (valida == null) {                                            
+                                              Future.delayed(Duration(seconds: 1), () {
+                                                Toast.show(
+                                                  "Login Inválido, ou erro de Conexão", context,
+                                                  duration: Toast.LENGTH_LONG,
+                                                  gravity: Toast.CENTER,
+                                                  backgroundRadius: 0.0
+                                                );                                             
+                                              });
+                                              _animationController.reverse(); 
+                                            }
+                                            else {
+                                              await addStringToSF(_emailTextController.text); 
+                                              setState(() {
+                                                load = false;
+                                              });
+                                              Future.delayed(Duration(seconds: 2), () {
+                                                // armazena email para lembrar do login
+                                                Navigator.of(context).push(new MaterialPageRoute(
+                                                  // aqui temos passagem de valores id cliente(sessao) de login para home
+                                                  builder: (context) => new HomePage1(), //id_sessao: usuario[0]['id'].toString()
+                                                  ),
+                                                );
+                                              });
+                                            }
+                                          },
+                                          child: Container(
+                                            width: 220,
+                                            height: 50,
+                                            decoration: BoxDecoration(
+                                                color: Color.fromRGBO(43, 61, 50, 1), borderRadius: BorderRadius.circular(10)),
+                                            child: Center(
+                                              child: Text(
+                                                'Login',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .button
+                                                    .copyWith(color: Colors.white, fontSize: 16),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ),
                               ),
-                            ),
+                          ),
+                          actionsPadding: EdgeInsets.symmetric(horizontal: 20),
+                          // actions: [
+                          //   FlatButton(
+                          //     onPressed: () {
+                                // Navigator.of(context).pop();
+                                // Future.delayed(Duration(milliseconds: 600), () {
+                                //   _animationController.forward();
+                                // });                                              
+                          //     }, 
+                          //     child: Text('Login')
+                          //   ),
+                          // ],
                         ),
-                        actionsPadding: EdgeInsets.symmetric(horizontal: 20),
-                        // actions: [
-                        //   FlatButton(
-                        //     onPressed: () {
-                              // Navigator.of(context).pop();
-                              // Future.delayed(Duration(milliseconds: 600), () {
-                              //   _animationController.forward();
-                              // });                                              
-                        //     }, 
-                        //     child: Text('Login')
-                        //   ),
-                        // ],
                       ),
-                    ),
-                  );
-                },
-                transitionDuration: Duration(milliseconds: 600),
-                barrierDismissible: true,
-                barrierLabel: '',
-                context: context,
-                pageBuilder: (context, animation1, animation2) {}
-              );
-            }
-          ),
-          Positioned(
-            top: 530,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      showGeneralDialog(
-                        barrierColor: Colors.black.withOpacity(0.5),
-                        transitionBuilder: (context, a1, a2, widget) {
-                          final curvedValue = Curves.easeInOutBack.transform(a1.value) -   1.0;     
-                          return Transform(
-                            transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
-                            child: Opacity(
-                              opacity: a1.value,
-                              child: AlertDialog(
-                                shape: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16.0)),
-                                title: Text('Recuperar Senha'),
-                                content: RecuperaSenha(),
-                                actionsPadding: EdgeInsets.symmetric(horizontal: 20),                                
-                              ),
-                            ),
+                    );
+                  },
+                  transitionDuration: Duration(milliseconds: 1100),
+                  barrierDismissible: true,
+                  barrierLabel: '',
+                  context: context,
+                  pageBuilder: (context, animation1, animation2) {}
+                );
+              }
+            ),
+            Positioned(
+              top: 530,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          showGeneralDialog(
+                            barrierColor: Colors.black.withOpacity(0.5),
+                            transitionBuilder: (context, a1, a2, widget) {
+                              final curvedValue = Curves.easeInOutBack.transform(a1.value) -   1.0;     
+                              return Transform(
+                                transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                                child: Opacity(
+                                  opacity: a1.value,
+                                  child: AlertDialog(
+                                    shape: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(16.0)),
+                                    title: Text('Recuperar Senha'),
+                                    content: RecuperaSenha(),
+                                    actionsPadding: EdgeInsets.symmetric(horizontal: 20),                                
+                                  ),
+                                ),
+                              );
+                            },
+                            transitionDuration: Duration(milliseconds: 1100),
+                            barrierDismissible: true,
+                            barrierLabel: '',
+                            context: context,
+                            pageBuilder: (context, animation1, animation2) {}
                           );
                         },
-                        transitionDuration: Duration(milliseconds: 1100),
-                        barrierDismissible: true,
-                        barrierLabel: '',
-                        context: context,
-                        pageBuilder: (context, animation1, animation2) {}
-                      );
-                    },
-                    child: Text(
-                      "< Recuperar Senha >",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white.withOpacity(1),
-                        shadows: <Shadow>[
-                          Shadow(
-                            offset: Offset(1.0, 1.0),
-                            blurRadius: 3.0,
-                            color: Color.fromRGBO(0, 0, 0, 1),
+                        child: Text(
+                          "< Recuperar Senha >",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(1),
+                            shadows: <Shadow>[
+                              Shadow(
+                                offset: Offset(1.0, 1.0),
+                                blurRadius: 3.0,
+                                color: Color.fromRGBO(0, 0, 0, 1),
+                              ),
+                            ],
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
                           ),
-                        ],
-                        fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
     );
   }
 

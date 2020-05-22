@@ -134,34 +134,33 @@ class _animationLoadState extends State<animationLoad> {
       )
       : CheckAnimation(
           onComplete: () {
-            Navigator.push(context, SlideLeftRoute(page: HomePage1()));
+            print('Complete');
+            // Navigator.push(context, SlideLeftRoute(page: HomePage1()));
           },
         );
   }
 }
 
-class SlideLeftRoute extends PageRouteBuilder {
-  final Widget page;
-  SlideLeftRoute({this.page})
-    : super(
-      pageBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-      ) =>
-          page,
-      transitionsBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        Widget child,
-      ) =>
-          SlideTransition(
-            position: Tween<Offset>(
-              begin: const Offset(1, 0),
-              end: Offset.zero,
-            ).animate(animation),
-            child: child,
-          ),
-    );
+class SlideLeftRoute extends MaterialPageRoute {
+  SlideLeftRoute({WidgetBuilder builder, RouteSettings settings})
+    : super(builder: builder, settings: settings);
+
+  @override
+  Widget buildTransitions(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+    Animation<Offset> custom = Tween<Offset>(begin: Offset(1.0, 0.0), end: Offset(0.0, 0.0)).animate(animation);
+      return SlideTransition(position: custom, child: child,);
+    // return super.buildTransitions(context, animation, secondaryAnimation, child);
+  }
+}
+
+class SlideRightRoute extends MaterialPageRoute {
+  SlideRightRoute({WidgetBuilder builder, RouteSettings settings})
+    : super(builder: builder, settings: settings);
+
+  @override
+  Widget buildTransitions(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+    Animation<Offset> custom = Tween<Offset>(begin: Offset(-1.0, 0.0), end: Offset(0.0, 0.0)).animate(animation);
+      return SlideTransition(position: custom, child: child,);
+    // return super.buildTransitions(context, animation, secondaryAnimation, child);
+  }
 }
