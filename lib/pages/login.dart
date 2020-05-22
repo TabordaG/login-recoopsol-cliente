@@ -238,7 +238,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                                           await Future.delayed(Duration(milliseconds: 600), () async {
                                             _animationController.forward();
                                           });
-                                          if (valida != null) {                                            
+                                          if (valida == null) {                                            
                                             Future.delayed(Duration(seconds: 1), () {
                                               Toast.show(
                                                 "Login Inválido, ou erro de Conexão", context,
